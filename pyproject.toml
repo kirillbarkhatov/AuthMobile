@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "authmobile"
+version = "0.1.0"
+description = ""
+authors = ["kirill_barkhatov <k.s.barkhatov@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.13"
+django = "^5.1.6"
+djangorestframework = "^3.15.2"
+psycopg2-binary = "^2.9.10"
+python-dotenv = "^1.0.1"
+
+
+[tool.poetry.group.lint.dependencies]
+flake8 = "^7.1.2"
+isort = "^6.0.0"
+black = "^25.1.0"
+mypy = "^1.15.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
