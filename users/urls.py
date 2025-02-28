@@ -2,7 +2,7 @@ from django.urls import path, reverse_lazy
 from django.contrib.auth import views as auth_views
 
 from users.apps import UsersConfig
-from users.views import RegisterView, VerifyCodeView, UserProfileView
+from users.views import RegisterView, VerifyCodeView, UserProfileView, SendSMSView
 
 
 app_name = UsersConfig.name
@@ -26,4 +26,5 @@ urlpatterns = [
         ),
         name="password_reset",
     ),
+    path("send_sms/", SendSMSView.as_view(), name="send_sms"),
 ]

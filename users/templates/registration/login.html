@@ -27,6 +27,32 @@
 </div>
 
 <div class="container">
+    <div class="row d-flex justify-content-center text-start">
+        <div class="col-lg-6 col-md-8 col-sm-10">
+            <div class="card mt-4 mb-4 shadow-sm">
+                <div class="card-body">
+                    <h2 class="text-center mb-4">Вход</h2>
+                    <form action="{% url 'users:send_sms' %}" method="post">
+                        {% csrf_token %}
+
+                        <!-- Поле для ввода номера телефона -->
+                        <div class="form-group mb-3">
+                            <label for="phone">Номер телефона</label>
+                            <input type="tel" class="form-control" id="phone" name="phone" placeholder="Введите номер телефона" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">Войти</button>
+                    </form>
+                    <div class="text-center mt-3">
+                        <a href="{% url 'users:password_reset' %}" class="text-decoration-none">Забыли пароль?</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
     <div class="row text-start">
 
 

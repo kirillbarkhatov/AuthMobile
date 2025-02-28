@@ -19,7 +19,7 @@
 
                 {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="{% url 'mailing:index' %}">
+                    <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="{% url 'authapp:index' %}">
                         <svg class="bi">
                             <use xlink:href="/static/svg/icons-menu.svg#house-fill"/>
                         </svg>
@@ -27,7 +27,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center gap-2" href="{% url 'mailing:recipient_list' %}">
+                    <a class="nav-link d-flex align-items-center gap-2" href="#">
                         <svg class="bi">
                             <use xlink:href="/static/svg/icons-menu.svg#people"/>
                         </svg>
@@ -35,7 +35,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center gap-2" href="{% url 'mailing:message_list' %}">
+                    <a class="nav-link d-flex align-items-center gap-2" href="#">
                         <svg class="bi">
                             <use xlink:href="/static/svg/icons-menu.svg#file-earmark-text"/>
                         </svg>
@@ -43,7 +43,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center gap-2" href="{% url 'mailing:mailing_list' %}">
+                    <a class="nav-link d-flex align-items-center gap-2" href="#">
                         <svg class="bi">
                             <use xlink:href="/static/svg/icons-menu.svg#play"/>
                         </svg>
@@ -51,7 +51,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center gap-2" href="{% url 'mailing:mailingattempt_list' %}">
+                    <a class="nav-link d-flex align-items-center gap-2" href="#">
                         <svg class="bi">
                             <use xlink:href="/static/svg/icons-menu.svg#graph-up"/>
                         </svg>
@@ -70,7 +70,7 @@
 
                 {% if perms.users.can_block_user %}
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center gap-2" href="{% url 'users:users' %}">
+                    <a class="nav-link d-flex align-items-center gap-2" href="#">
                         <svg class="bi">
                             <use xlink:href="/static/svg/icons-menu.svg#people"/>
                         </svg>
@@ -99,6 +99,14 @@
                             <use xlink:href="/static/svg/icons-menu.svg#door-open"/>
                         </svg>
                         Войти
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center gap-2" href="{% url 'authapp:phone_login' %}">
+                        <svg class="bi">
+                            <use xlink:href="/static/svg/icons-menu.svg#door-open"/>
+                        </svg>
+                        Войти по телефону
                     </a>
                 </li>
                 <li class="nav-item">

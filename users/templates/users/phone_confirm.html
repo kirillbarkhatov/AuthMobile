@@ -1,0 +1,18 @@
+{% extends "authapp/base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}Вход по телефону{% endblock %}
+
+{% block content %}
+
+
+<h1>Вход по телефону</h1>
+
+<!-- Форма для ввода телефона -->
+<form id="phone-form" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" id="send-code-button">Войти</button>
+</form>
+
+
+{% endblock %}
