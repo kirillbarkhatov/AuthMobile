@@ -1,0 +1,55 @@
+{% extends 'mailing/base.html' %}
+
+{% block title %}Пользователи системы{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h2>Пользователи системы</h2>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a class="btn btn-outline-primary" href="{% url 'mailing:recipient_create' %}">Добавить</a>
+    </div>
+</div>
+
+
+<div class="table-responsive small">
+    <table class="table table-striped table-sm">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Почта</th>
+            <th scope="col">Статус активный/неактивный</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for system_user in object_list %}
+        <tr>
+            <td>{{ system_user.id }}</td>
+            <td>{{ system_user.email }}</td>
+            <td>{{ system_user.is_active }}</td>
+            <td class="text-end" style="width: 20vh;">
+                <form action="{% url 'users:user_block' system_user.pk %}" method="post">
+                    {% csrf_token %}
+                    {% if system_user.is_active %}
+                    <button type="submit" class="btn btn-outline-danger btn-sm">Заблокировать</button>
+                    {% else %}
+                    <button type="submit" class="btn btn-outline-primary btn-sm">Разблокировать</button>
+                    {% endif %}
+                </form>
+            </td>
+            <!--            {% if recipient.owner == user %}-->
+            <!--            <td class="text-end" style="width: 20vh;">-->
+            <!--                <a class="btn btn-outline-primary" href="{% url 'mailing:recipient_update' recipient.pk%}">Изменить</a>-->
+            <!--                <a class="btn btn-outline-danger" href="{% url 'mailing:recipient_delete' recipient.pk%}">Удалить</a>-->
+            <!--            </td>-->
+            <!--            {% else %}-->
+            <!--            <td class="text-end" style="width: 20vh;"></td>-->
+            <!--            {% endif %}-->
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
+

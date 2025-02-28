@@ -1,10 +1,10 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from users.servicies import generate_invite_code
+from users.services import generate_invite_code
 
 
 class User(AbstractUser):
-    """Моель кастомного пользователя"""
+    """Модель кастомного пользователя"""
 
     username = None
     phone = models.CharField(

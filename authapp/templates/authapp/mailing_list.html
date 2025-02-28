@@ -1,0 +1,70 @@
+{% extends 'mailing/base.html' %}
+
+{% block title %}Управление рассылками{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h2>Управление рассылками</h2>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a class="btn btn-outline-primary" href="{% url 'mailing:mailing_create' %}">Добавить</a>
+    </div>
+</div>
+
+
+<div class="table-responsive small">
+    <table class="table table-striped table-sm">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Дата и время первой отправки</th>
+            <th scope="col">Дата и время окончания отправки</th>
+            <th scope="col">Статус автоматической рассылки</th>
+            <th scope="col">Сообщение</th>
+            <th scope="col">Получатели</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for mailing in object_list %}
+        <tr>
+            <td>{{ mailing.id }}</td>
+            <td>{{ mailing.first_send_at }}</td>
+            <td>{{ mailing.finish_send_at }}</td>
+            <td>{{ mailing.status }}
+            {% if mailing.owner == user or is_manager %}
+                {% if mailing.status != "completed" %}
+                <form action="{% url 'mailing:mailing_stop' mailing.pk %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-danger btn-sm">Завершить/отключить</button>
+                </form>
+                {% endif %}
+                {% endif %}
+            </td>
+            <td>{{ mailing.message }}</td>
+            <td>
+
+                {% for recipient in mailing.recipients.all %}
+                {{ recipient.email }}<br>
+                {% endfor %}
+
+
+            </td>
+
+            <td class="text-end">
+                {% if mailing.owner == user %}
+
+                <a class="btn btn-outline-primary" href="{% url 'mailing:mailing_detail' mailing.pk%}">Разослать вручную</a>
+
+                <a class="btn btn-outline-primary" href="{% url 'mailing:mailing_update' mailing.pk%}">Изменить</a>
+                <a class="btn btn-outline-danger" href="{% url 'mailing:mailing_delete' mailing.pk%}">Удалить</a>
+                {% endif %}
+            </td>
+
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
+

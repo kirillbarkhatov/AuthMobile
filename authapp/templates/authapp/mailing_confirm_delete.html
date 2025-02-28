@@ -1,0 +1,43 @@
+{% extends 'mailing/base.html' %}
+
+{% block title %}Управление рассылками{% endblock %}
+
+{% block content %}
+
+<h2>Вы действительно хотите удалить рассылку?</h2>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="table-responsive small">
+        <table class="table table-striped table-sm">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Дата и время первой отправки</th>
+                <th scope="col">Дата и время окончания отправки</th>
+                <th scope="col">Статус</th>
+                <th scope="col">Сообщение</th>
+                <th scope="col">Получатели</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr>
+                <td>{{ object.id }}</td>
+                <td>{{ object.first_send_at }}</td>
+                <td>{{ object.finish_send_at }}</td>
+                <td>{{ object.status }}</td>
+                <td>{{ object.message }}</td>
+                <td>{{ object.recipients }}</td>
+                <td class="text-end">
+                    <button type="submit" class="btn btn-lg btn-block btn-outline-danger">Подтвердить</button>
+                    <a class="btn btn-outline-primary" href="{% url 'mailing:mailing_list' %}">Отменить</a>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+</form>
+
+{% endblock %}
+

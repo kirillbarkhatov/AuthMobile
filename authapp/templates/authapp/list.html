@@ -1,0 +1,27 @@
+<h2>Попытки рассылки</h2>
+
+<div class="table-responsive small">
+    <table class="table table-striped table-sm">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col" >Дата и время попытки отправки</th>
+            <th scope="col">Статус</th>
+            <th scope="col">Ответ почтового сервера</th>
+            <th scope="col">Рассылка</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for attempt in object_list %}
+        <tr>
+            <td>{{ attempt.id }}</td>
+            <td>{{ attempt.attempted_at }}</td>
+            <td>{{ attempt.status }}</td>
+            <td>{{ attempt.mail_server_response }}</td>
+            <td>{{ attempt.mailing }}</td>
+
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

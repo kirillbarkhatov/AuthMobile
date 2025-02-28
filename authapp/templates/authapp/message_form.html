@@ -1,0 +1,28 @@
+{% extends 'mailing/base.html' %}
+
+{% block title %}Рассылаемые сообщения{% endblock %}
+
+{% block content %}
+
+{% if object %}
+<h2>Изменить сообщение</h2>
+{% else %}
+<h2>Добавить сообщение</h2>
+{% endif %}
+
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <!-- Выводим каждое поле формы в отдельном параграфе -->
+    {{ form.as_p }}
+
+    {% if object %}
+    <button type="submit" class="btn btn-outline-primary">Изменить</button>
+    {% else %}
+    <button type="submit" class="btn btn-outline-primary">Добавить</button>
+    {% endif %}
+
+</form>
+
+{% endblock %}
+
