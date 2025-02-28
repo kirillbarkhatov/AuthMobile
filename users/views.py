@@ -1,4 +1,5 @@
 from django.contrib.auth.models import AbstractUser
+from django.core.cache import cache
 from django.db import models
 from django.http import JsonResponse
 
@@ -85,18 +86,23 @@ class PhoneLoginView(FormView):
     def post(self, request, *args, **kwargs):
         phone = request.POST.get('phone')
         phone = normalize_phone(phone)
-        print(phone)
         request.session['phone'] = phone
         user, created = User.objects.get_or_create(phone=phone)  # Получаем или создаем пользователя
         code = user.generate_code()  # Генерация кода
         # send_sms_code(phone, code)  # Отправляем код пользователю
-        print(code)
         return redirect('authapp:phone_confirm')
 
 
 class PhoneConfirmView(FormView):
     template_name = 'users/phone_confirm.html'
     form_class = CodeForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        phone = self.request.session.get('phone')
+        cached_code = cache.get(f"user_{phone}_code")
+        context["cached_code"] = cached_code
+        return context
 
     def post(self, request, *args, **kwargs):
         phone = request.session.get('phone')  # Получаем номер телефона из сессии

@@ -26,39 +26,6 @@
                         Главная
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center gap-2" href="#">
-                        <svg class="bi">
-                            <use xlink:href="/static/svg/icons-menu.svg#people"/>
-                        </svg>
-                        Получатели рассылки
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center gap-2" href="#">
-                        <svg class="bi">
-                            <use xlink:href="/static/svg/icons-menu.svg#file-earmark-text"/>
-                        </svg>
-                        Рассылаемые сообщения
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center gap-2" href="#">
-                        <svg class="bi">
-                            <use xlink:href="/static/svg/icons-menu.svg#play"/>
-                        </svg>
-                        Управление рассылками
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center gap-2" href="#">
-                        <svg class="bi">
-                            <use xlink:href="/static/svg/icons-menu.svg#graph-up"/>
-                        </svg>
-                        Информация о рассылках
-                    </a>
-                </li>
-
 
 
 
@@ -68,9 +35,9 @@
 
             <ul class="nav flex-column mb-auto">
 
-                {% if perms.users.can_block_user %}
+                {% if user.is_superuser %}
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center gap-2" href="#">
+                    <a class="nav-link d-flex align-items-center gap-2" href="{% url 'authapp:users_list' %}">
                         <svg class="bi">
                             <use xlink:href="/static/svg/icons-menu.svg#people"/>
                         </svg>
@@ -93,28 +60,13 @@
 
                 {% else %}
 
-                <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center gap-2" href="{% url 'users:login' %}">
-                        <svg class="bi">
-                            <use xlink:href="/static/svg/icons-menu.svg#door-open"/>
-                        </svg>
-                        Войти
-                    </a>
-                </li>
+
                 <li class="nav-item">
                     <a class="nav-link d-flex align-items-center gap-2" href="{% url 'authapp:phone_login' %}">
                         <svg class="bi">
                             <use xlink:href="/static/svg/icons-menu.svg#door-open"/>
                         </svg>
                         Войти по телефону
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center gap-2" href="{% url 'users:register' %}">
-                        <svg class="bi">
-                            <use xlink:href="/static/svg/icons-menu.svg#person-plus"/>
-                        </svg>
-                        Регистрация
                     </a>
                 </li>
 

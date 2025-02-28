@@ -17,40 +17,13 @@
                         {{ form|crispy }}
                         <button type="submit" class="btn btn-primary w-100">Войти</button>
                     </form>
-                    <div class="text-center mt-3">
-                        <a href="{% url 'users:password_reset' %}" class="text-decoration-none">Забыли пароль?</a>
-                    </div>
+
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="container">
-    <div class="row d-flex justify-content-center text-start">
-        <div class="col-lg-6 col-md-8 col-sm-10">
-            <div class="card mt-4 mb-4 shadow-sm">
-                <div class="card-body">
-                    <h2 class="text-center mb-4">Вход</h2>
-                    <form action="{% url 'users:send_sms' %}" method="post">
-                        {% csrf_token %}
-
-                        <!-- Поле для ввода номера телефона -->
-                        <div class="form-group mb-3">
-                            <label for="phone">Номер телефона</label>
-                            <input type="tel" class="form-control" id="phone" name="phone" placeholder="Введите номер телефона" required>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary w-100">Войти</button>
-                    </form>
-                    <div class="text-center mt-3">
-                        <a href="{% url 'users:password_reset' %}" class="text-decoration-none">Забыли пароль?</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div class="container">
     <div class="row text-start">
@@ -61,7 +34,7 @@
 
                 <div class="card-body">
 
-                    <h3>Если после миграций вы выполнили команды "add_test_data" и "csu", вам доступны следующие учетные записи</h3>
+                    <h3>Вам доступны следующие учетные записи</h3>
                     <table class="table table-striped">
                         <thead>
                         <tr>
@@ -77,31 +50,10 @@
 
 
                         <tr>
-                            <th>admin@admin.ru</th>
+                            <th>+70000000000</th>
                             <td>123qwe456rty</td>
                             <td>superuser</td>
                             <td>Для админки</td>
-                        </tr>
-
-                        <tr>
-                            <th>manager@manager.ru</th>
-                            <td>123qwe456rty</td>
-                            <td>Менеджер</td>
-                            <td>Менеджеры могут просматривать все рассылки и клиентов, но не могут редактировать или удалять чужие данные.</td>
-                        </tr>
-
-                        <tr>
-                            <th>test1@test1.ru</th>
-                            <td>123qwe456rty</td>
-                            <td></td>
-                            <td>Тестовый пользователь</td>
-                        </tr>
-
-                        <tr>
-                            <th>test2@test2.ru</th>
-                            <td>123qwe456rty</td>
-                            <td></td>
-                            <td>Тестовый пользователь</td>
                         </tr>
 
 

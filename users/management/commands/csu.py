@@ -9,11 +9,11 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         User = get_user_model()
         try:
-            User.objects.get(phone="111").delete()
+            User.objects.get(phone="+70000000000").delete()
         except ObjectDoesNotExist:
             pass
         user = User.objects.create(
-            phone="111",
+            phone="+70000000000",
         )
         user.set_password("123qwe456rty")
         user.is_staff = True

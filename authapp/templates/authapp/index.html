@@ -7,9 +7,9 @@
 
         <div class="col-3 d-flex">
             <div class="card flex-fill">
-                <h5 class="card-header">Всего рассылок</h5>
+                <h5 class="card-header">Ваш телефон</h5>
                 <div class="card-body">
-                    <h1 class="card-title">{{ mailing_count }}</h1>
+                    <h1 class="card-title">{{ user.phone }}</h1>
                 </div>
             </div>
         </div>
@@ -17,27 +17,50 @@
 
         <div class="col-3 d-flex">
             <div class="card flex-fill">
-                <h5 class="card-header">Всего активных рассылок</h5>
+                <h5 class="card-header">Ваш инвайт код (дайте ещё не зарегистрированному пользователю)</h5>
                 <div class="card-body">
-                    <h1 class="card-title">{{ mailing_running_count }}</h1>
+                    <h1 class="card-title">{{ user.invite_code }}</h1>
                 </div>
             </div>
         </div>
 
         <div class="col-3 d-flex">
             <div class="card flex-fill">
-                <h5 class="card-header">Всего попыток отправки</h5>
+                <h5 class="card-header">Вас пригласил (код - номер)</h5>
                 <div class="card-body">
-                    <h1 class="card-title">{{ attempt_count }}</h1>
+                    {% if user.invited_by %}
+                    <h1 class="card-title">{{ user.invited_by.invite_code }} - {{ user.invited_by }}</h1>
+                    {% else %}
+                    <!-- Форма ввода для кода приглашения -->
+                    <form method="post" action="{% url 'authapp:invite_code' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="invite_code">Введите код приглашения:</label>
+                            {% if messages %}
+
+                                {% for message in messages %}
+                                <div class="alert alert-{{ message.level_tag }} alert-dismissible fade show"
+                                     role="alert">
+                                    {{ message }}
+                                </div>
+                                {% endfor %}
+
+                            {% endif %}
+                            <input type="text" id="invite_code" name="invite_code" class="form-control"
+                                   placeholder="Код приглашения" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Подтвердить</button>
+                    </form>
+                    {% endif %}
                 </div>
             </div>
         </div>
 
         <div class="col-3 d-flex">
             <div class="card flex-fill">
-                <h5 class="card-header">Количество получателей</h5>
+                <h5 class="card-header">Количество приглашенных вами</h5>
                 <div class="card-body">
-                    <h1 class="card-title">{{ recipient_count }}</h1>
+                    <h1 class="card-title">{{ invited_users_count }}</h1>
                 </div>
             </div>
         </div>
@@ -45,12 +68,6 @@
     </div>
 </div>
 
-{% include 'authapp/includes/dashboard.html' %}
 
 {% endblock %}
 
-{% block content_2 %}
-
-{% include 'authapp/list.html' %}
-
-{% endblock %}

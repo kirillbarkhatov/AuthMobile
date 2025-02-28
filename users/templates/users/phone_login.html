@@ -4,15 +4,26 @@
 
 {% block content %}
 
-
-<h1>Вход по телефону</h1>
-
-<!-- Форма для ввода телефона -->
-<form id="phone-form" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" id="send-code-button">Отправить код</button>
-</form>
+<div class="container">
+    <div class="row d-flex justify-content-center text-start">
+        <div class="col-lg-6 col-md-8 col-sm-10">
+            <div class="card mt-4 mb-4 shadow-sm">
+                <div class="card-body">
+                    <h2 class="text-center mb-4">Вход по телефону</h2>
+                    <!-- Форма для ввода телефона -->
+                    <form id="phone-form" method="post">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <button type="submit" class="btn btn-primary w-100">Отправить код</button>
+                    </form>
+                    <div class="text-center mt-3">
+                        <a href="{% url 'users:login' %}" class="text-decoration-none">Войти с паролем (для администратора)</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 {% endblock %}
