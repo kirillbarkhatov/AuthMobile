@@ -27,7 +27,11 @@
             <td>{{ system_user.phone }}</td>
             <td>{{ system_user.invite_code }}</td>
             <td>{{ system_user.invited_by }}</td>
-            <td>{{ system_user.invite_code }}</td>
+            <td>
+                {% for user in system_user.invited_users.all %}
+                {{ user }}<br>
+                {% endfor %}
+            </td>
 
         </tr>
         {% endfor %}

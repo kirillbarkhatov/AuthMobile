@@ -16,6 +16,8 @@ crispy-bootstrap5 = "^2024.10"
 smsaero-api = "^3.0.0"
 django-phonenumber-field = "^8.0.0"
 redis = "^5.2.1"
+django-redis = "^5.4.0"
+djangorestframework-simplejwt = "^5.5.0"
 
 
 [tool.poetry.group.lint.dependencies]

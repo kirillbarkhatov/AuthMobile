@@ -54,4 +54,3 @@ class UserListView(LoginRequiredMixin, ListView):
         return HttpResponseForbidden(
             "Вы не можете просматривать/изменять/удалять этот объект."
         )
-
