@@ -14,6 +14,7 @@ from users.forms import CodeForm, PhoneForm
 from users.models import User
 from users.serializers import RegisterSerializer, UserSerializer, VerifyCodeSerializer
 from users.services import generate_invite_code, normalize_phone, send_sms
+from drf_yasg.utils import swagger_auto_schema
 
 
 class RegisterView(APIView):
@@ -27,6 +28,7 @@ class RegisterView(APIView):
 
     permission_classes = [AllowAny]
 
+    @swagger_auto_schema(request_body=RegisterSerializer, responses={200: 'Код отправлен'})
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
@@ -76,6 +78,7 @@ class VerifyCodeView(APIView):
 
     permission_classes = [AllowAny]
 
+    @swagger_auto_schema(request_body=VerifyCodeSerializer, responses={200: 'Авторизация успешна'})
     def post(self, request):
         serializer = VerifyCodeSerializer(data=request.data)
         if serializer.is_valid():
