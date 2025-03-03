@@ -19,6 +19,7 @@ redis = "^5.2.1"
 django-redis = "^5.4.0"
 djangorestframework-simplejwt = "^5.5.0"
 drf-yasg = "^1.21.9"
+gunicorn = "^23.0.0"
 
 
 [tool.poetry.group.lint.dependencies]

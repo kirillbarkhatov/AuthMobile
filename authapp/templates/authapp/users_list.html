@@ -23,7 +23,7 @@
         <tbody>
         {% for system_user in object_list %}
         <tr>
-            <td>{{ system_user.id }}</td>
+            <td>{{ forloop.counter }}</td>
             <td>{{ system_user.phone }}</td>
             <td>{{ system_user.invite_code }}</td>
             <td>{{ system_user.invited_by }}</td>

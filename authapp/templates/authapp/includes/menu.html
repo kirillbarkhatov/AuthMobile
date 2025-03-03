@@ -47,7 +47,7 @@
                 {% endif %}
                 {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <form method="post" action="{% url 'users:logout' %}">
+                    <form method="post" action="{% url 'authapp:logout' %}">
                     {% csrf_token %}
                     <button type="submit" class="nav-link d-flex align-items-center gap-2">
                         <svg class="bi">
