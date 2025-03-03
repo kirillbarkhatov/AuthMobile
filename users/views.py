@@ -3,6 +3,7 @@ from django.contrib.auth import login
 from django.core.cache import cache
 from django.shortcuts import redirect
 from django.views.generic import FormView, View
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import generics, status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -13,8 +14,7 @@ from smsaero import SmsAeroException
 from users.forms import CodeForm, PhoneForm
 from users.models import User
 from users.serializers import RegisterSerializer, UserSerializer, VerifyCodeSerializer
-from users.services import generate_invite_code, normalize_phone, send_sms
-from drf_yasg.utils import swagger_auto_schema
+from users.services import normalize_phone, send_sms
 
 
 class RegisterView(APIView):
@@ -28,11 +28,14 @@ class RegisterView(APIView):
 
     permission_classes = [AllowAny]
 
-    @swagger_auto_schema(request_body=RegisterSerializer, responses={200: 'Код отправлен'})
+    @swagger_auto_schema(
+        request_body=RegisterSerializer, responses={200: "Код отправлен"}
+    )
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
             phone = serializer.validated_data["phone"]
+            phone = normalize_phone(phone)
             invited_by_code = serializer.validated_data.get("invited_by")
 
             # Проверяем, существует ли пользователь с таким номером
@@ -59,8 +62,9 @@ class RegisterView(APIView):
                     user.save()
 
             # Генерация и отправка кода
+
             code = user.generate_code()
-            # send_sms_code(phone, code)  # Отправляем код пользователю
+            # send_sms(int(phone), code)  # Отправляем код пользователю
             print(code)
 
             return Response({"message": "Код отправлен"}, status=status.HTTP_200_OK)
@@ -78,7 +82,9 @@ class VerifyCodeView(APIView):
 
     permission_classes = [AllowAny]
 
-    @swagger_auto_schema(request_body=VerifyCodeSerializer, responses={200: 'Авторизация успешна'})
+    @swagger_auto_schema(
+        request_body=VerifyCodeSerializer, responses={200: "Авторизация успешна"}
+    )
     def post(self, request):
         serializer = VerifyCodeSerializer(data=request.data)
         if serializer.is_valid():
@@ -117,7 +123,6 @@ class UserProfileView(generics.RetrieveAPIView):
 class SendSMSView(View):
     """Контроллер для отправки СМС через сторонний сервис"""
 
-
     def post(self, request):
         # Получаем номер телефона из формы
         phone_number = request.POST.get("phone")
@@ -151,8 +156,8 @@ class PhoneLoginView(FormView):
         user, created = User.objects.get_or_create(
             phone=phone
         )  # Получаем или создаем пользователя
-        code = user.generate_code()  # Генерация кода
-        # send_sms_code(phone, code)  # Отправляем код пользователю
+        code = user.generate_code()  # Генерация кода # noqa
+        # send_sms(int(phone), code)  # Отправляем код пользователю
         return redirect("authapp:phone_confirm")
 
 

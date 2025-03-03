@@ -188,6 +188,6 @@ SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SMSAERO_API_KEY = os.getenv("SMSAERO_API_KEY")
 
 CSRF_TRUSTED_ORIGINS = [
-    'http://localhost',
-    'http://127.0.0.1',
+    "http://localhost",
+    "http://127.0.0.1",
 ]

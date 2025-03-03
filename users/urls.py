@@ -1,6 +1,5 @@
-from django.contrib.auth import views as auth_views
-from django.urls import path, reverse_lazy
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from django.urls import path
+from rest_framework_simplejwt.views import TokenRefreshView
 
 from users.apps import UsersConfig
 from users.views import RegisterView, SendSMSView, UserProfileView, VerifyCodeView
