@@ -125,14 +125,14 @@ class SendSMSView(View):
             # Здесь можно добавить логику проверки номера телефона, аутентификации и т.д.
         else:
             messages.error(request, "Номер телефона обязателен для заполнения.")
-            return redirect("users:login")  # Редирект обратно на страницу входа
+            return redirect("authapp:login")  # Редирект обратно на страницу входа
 
         try:
             result = send_sms(int(phone_number), "Привет")
             print(result)
         except SmsAeroException as e:
             print(f"An error occurred: {e}")
-        return redirect("users:login")
+        return redirect("authapp:login")
 
 
 class PhoneLoginView(FormView):
