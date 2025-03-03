@@ -8,11 +8,20 @@ class InvitedUserSerializer(serializers.ModelSerializer):
         fields = ["id", "phone"]
 
 
-class UserSerializer(serializers.ModelSerializer):
-    invited_users = InvitedUserSerializer(many=True, read_only=True)
+class InvitedByUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["id", "phone", "invite_code", "invited_by", "created_at", "invited_users"]
+        fields = ["id", "phone", "invite_code"]  # Добавляем нужные поля
+
+
+
+class UserSerializer(serializers.ModelSerializer):
+    invited_users = InvitedUserSerializer(many=True, read_only=True)
+    invited_by_user = InvitedByUserSerializer(source="invited_by", read_only=True)  # Добавляем вложенный объект
+
+    class Meta:
+        model = User
+        fields = ["id", "phone", "invite_code", "invited_by_user", "created_at", "invited_users"]
 
 
 class RegisterSerializer(serializers.Serializer):
