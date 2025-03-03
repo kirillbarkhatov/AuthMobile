@@ -17,6 +17,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class RegisterSerializer(serializers.Serializer):
     phone = serializers.CharField(max_length=15)
+    invited_by = serializers.CharField(max_length=6, required=False, allow_blank=True)  # Поле необязательное
 
 
 class VerifyCodeSerializer(serializers.Serializer):

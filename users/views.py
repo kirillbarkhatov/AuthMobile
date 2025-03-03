@@ -38,11 +38,30 @@ class RegisterView(APIView):
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
             phone = serializer.validated_data['phone']
+            invited_by_code = serializer.validated_data.get('invited_by')
+
+            # Проверяем, существует ли пользователь с таким номером
             user, created = User.objects.get_or_create(phone=phone)
-            code = user.generate_code()  # Генерация кода
+
+            if not created:  # Если пользователь уже существует
+                if user.invited_by:  # Если инвайт-код уже был установлен ранее
+                    return Response({"invited_by": "Инвайт-код уже указан и не может быть изменён."},
+                                    status=status.HTTP_400_BAD_REQUEST)
+
+            # Устанавливаем инвайт-код, если он передан и ранее не был установлен
+            if invited_by_code and not user.invited_by:
+                invited_by_user = User.objects.filter(invite_code=invited_by_code).first()
+                if invited_by_user:
+                    user.invited_by = invited_by_user
+                    user.save()
+
+            # Генерация и отправка кода
+            code = user.generate_code()
             # send_sms_code(phone, code)  # Отправляем код пользователю
             print(code)
+
             return Response({"message": "Код отправлен"}, status=status.HTTP_200_OK)
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
