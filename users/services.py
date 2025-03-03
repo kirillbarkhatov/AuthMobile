@@ -1,11 +1,13 @@
 import random
 import string
+
+from phonenumbers import PhoneNumberFormat, format_number, parse
+from smsaero import SmsAero
+
 from config.settings import SMSAERO_API_KEY
-from phonenumbers import parse, format_number, PhoneNumberFormat
-from smsaero import SmsAero, SmsAeroException
 
+SMSAERO_EMAIL = "79110920294@mail.ru"
 
-SMSAERO_EMAIL = '79110920294@mail.ru'
 
 def send_sms(phone: int, message: str) -> dict:
     """
@@ -24,9 +26,11 @@ def send_sms(phone: int, message: str) -> dict:
 
 def normalize_phone(phone):
     parsed_phone = parse(phone, "RU")  # Парсим номер телефона
-    return format_number(parsed_phone, PhoneNumberFormat.E164)  # Приводим к международному формату
+    return format_number(
+        parsed_phone, PhoneNumberFormat.E164
+    )  # Приводим к международному формату
 
 
 def generate_invite_code():
     """Генерирует 6-значный инвайт-код."""
-    return ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
+    return "".join(random.choices(string.ascii_uppercase + string.digits, k=6))

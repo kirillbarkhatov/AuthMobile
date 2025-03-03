@@ -1,5 +1,7 @@
 from django.contrib.auth.backends import BaseBackend
+
 from .models import User
+
 
 class PhoneBackend(BaseBackend):
     def authenticate(self, request, phone=None, code=None, **kwargs):

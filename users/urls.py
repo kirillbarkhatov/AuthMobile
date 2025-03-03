@@ -1,19 +1,16 @@
-from django.urls import path, reverse_lazy
 from django.contrib.auth import views as auth_views
+from django.urls import path, reverse_lazy
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from users.apps import UsersConfig
-from users.views import RegisterView, VerifyCodeView, UserProfileView, SendSMSView
-from rest_framework_simplejwt.views import (TokenObtainPairView,
-                                            TokenRefreshView)
-
+from users.views import RegisterView, SendSMSView, UserProfileView, VerifyCodeView
 
 app_name = UsersConfig.name
 
 urlpatterns = [
-    path('register/', RegisterView.as_view(), name='register'),
-    path('verify/', VerifyCodeView.as_view(), name='verify_code'),
-    path('profile/', UserProfileView.as_view(), name='user_profile'),
-
+    path("register/", RegisterView.as_view(), name="register"),
+    path("verify/", VerifyCodeView.as_view(), name="verify_code"),
+    path("profile/", UserProfileView.as_view(), name="user_profile"),
     path(
         "logout/",
         auth_views.LogoutView.as_view(next_page="authapp:index"),
