@@ -17,6 +17,14 @@ from users.services import generate_invite_code, normalize_phone, send_sms
 
 
 class RegisterView(APIView):
+    """
+    Эндпоинт для регистрации и/или авторизации пользователя.
+
+    Ожидает номер телефона и, опционально, инвайт-код.
+    Проверяет, существует ли пользователь, создаёт его при необходимости.
+    Генерирует код подтверждения и отправляет его пользователю.
+    """
+
     permission_classes = [AllowAny]
 
     def post(self, request):
@@ -59,6 +67,13 @@ class RegisterView(APIView):
 
 
 class VerifyCodeView(APIView):
+    """
+    Эндпоинт для проверки кода подтверждения.
+
+    Ожидает номер телефона и код подтверждения.
+    Проверяет корректность кода и, в случае успеха, выдаёт JWT-токены.
+    """
+
     permission_classes = [AllowAny]
 
     def post(self, request):
@@ -85,6 +100,10 @@ class VerifyCodeView(APIView):
 
 
 class UserProfileView(generics.RetrieveAPIView):
+    """
+    Эндпоинт для получения информации о пользователе.
+    """
+
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
@@ -93,6 +112,9 @@ class UserProfileView(generics.RetrieveAPIView):
 
 
 class SendSMSView(View):
+    """Контроллер для отправки СМС через сторонний сервис"""
+
+
     def post(self, request):
         # Получаем номер телефона из формы
         phone_number = request.POST.get("phone")
@@ -114,6 +136,8 @@ class SendSMSView(View):
 
 
 class PhoneLoginView(FormView):
+    """Контроллер для авторизации в веб-интерфейсе - генерация кода"""
+
     template_name = "users/phone_login.html"  # Шаблон, который будет отображаться
     form_class = PhoneForm  # Форма для ввода телефона
 
@@ -130,6 +154,8 @@ class PhoneLoginView(FormView):
 
 
 class PhoneConfirmView(FormView):
+    """Контроллер для авторизации в веб-интерфейсе - подтверждение кода"""
+
     template_name = "users/phone_confirm.html"
     form_class = CodeForm
 

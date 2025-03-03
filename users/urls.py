@@ -26,6 +26,5 @@ urlpatterns = [
         name="password_reset",
     ),
     path("send_sms/", SendSMSView.as_view(), name="send_sms"),
-    path("login/", TokenObtainPairView.as_view(), name="login"),
     path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 ]

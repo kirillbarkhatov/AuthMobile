@@ -4,6 +4,8 @@ from .models import User
 
 
 class PhoneBackend(BaseBackend):
+    """Авторизация по коду"""
+
     def authenticate(self, request, phone=None, code=None, **kwargs):
         try:
             user = User.objects.get(phone=phone)
