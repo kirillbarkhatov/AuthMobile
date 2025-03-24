@@ -1,0 +1,97 @@
+<!-- register.html -->
+
+
+{% extends "authapp/base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}Регистрация{% endblock %}
+
+{% block content %}
+
+
+<div class="container">
+    <div class="row d-flex justify-content-center text-start">
+        <div class="col-lg-6 col-md-8 col-sm-10">
+            <div class="card mt-4 mb-4 shadow-sm">
+                <div class="card-body">
+                    <h2>Регистрация</h2>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <button type="submit" class="btn btn-outline-primary">Зарегистрироваться</button>
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<div class="container">
+    <div class="row text-start">
+
+
+        <div class="col-12">
+            <div class="card mb-4 box-shadow">
+
+                <div class="card-body">
+
+                    <h3>Если после миграций вы выполнили команды "add_test_data" и "csu", вам доступны следующие учетные записи</h3>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+
+                            <th>Почта</th>
+                            <th>Пароль</th>
+                            <th>Группа</th>
+                            <th>Описание</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+
+
+                        <tr>
+                            <th>admin@admin.ru</th>
+                            <td>123qwe456rty</td>
+                            <td>superuser</td>
+                            <td>Для админки</td>
+                        </tr>
+
+                        <tr>
+                            <th>manager@manager.ru</th>
+                            <td>123qwe456rty</td>
+                            <td>Менеджер</td>
+                            <td>Менеджеры могут просматривать все рассылки и клиентов, но не могут редактировать или удалять чужие данные.</td>
+                        </tr>
+
+                        <tr>
+                            <th>test1@test1.ru</th>
+                            <td>123qwe456rty</td>
+                            <td></td>
+                            <td>Тестовый пользователь</td>
+                        </tr>
+
+                        <tr>
+                            <th>test2@test2.ru</th>
+                            <td>123qwe456rty</td>
+                            <td></td>
+                            <td>Тестовый пользователь</td>
+                        </tr>
+
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+{% endblock %}

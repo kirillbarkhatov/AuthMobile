@@ -10,7 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
+import sys
 from pathlib import Path
+
+from dotenv import load_dotenv
+
+load_dotenv(override=True)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +26,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-@221cam2_+4c8nfg&pzn=cotxo-cm%tvb0m#5$_6no&35db1vu"
+SECRET_KEY = os.getenv("SECRET_KEY", "fallback-secret")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True if os.getenv("DEBUG") == "True" else False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -37,6 +43,14 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "rest_framework",
+    "rest_framework_simplejwt",
+    "drf_yasg",
+    "crispy_forms",
+    "crispy_bootstrap5",
+    "phonenumber_field",
+    "authapp",
+    "users",
 ]
 
 MIDDLEWARE = [
@@ -69,14 +83,26 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": os.getenv("POSTGRES_DB"),
+        "USER": os.getenv("POSTGRES_USER"),
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
+        "HOST": os.getenv("POSTGRES_HOST"),
+        "PORT": os.getenv("POSTGRES_PORT"),
     }
 }
 
@@ -99,13 +125,17 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",  # Оставляем для админки
+    "users.backends.PhoneBackend",  # Ваш кастомный бэкенд
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "ru-ru"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Europe/Moscow"
 
 USE_I18N = True
 
@@ -117,7 +147,47 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
+STATICFILES_DIRS = [BASE_DIR / "static"]
+
+MEDIA_URL = "media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+AUTH_USER_MODEL = "users.User"
+LOGIN_REDIRECT_URL = "/"
+LOGIN_URL = "authapp:phone_login"
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+if "test" in sys.argv:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "test_db.sqlite3",
+        }
+    }
+
+CACHE_ENABLED = True if os.getenv("CACHE_ENABLED") == "True" else False
+if CACHE_ENABLED:
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.redis.RedisCache",
+            "LOCATION": os.getenv("LOCATION"),
+        }
+    }
+
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+
+SMSAERO_API_KEY = os.getenv("SMSAERO_API_KEY")
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost",
+    "http://127.0.0.1",
+]
